@@ -1,0 +1,208 @@
+// Black Jack Game !
+// The computer is the dealer, and the user/player is trying to beat the computer's hand of cards without going over 21!
+
+var username = prompt ("Name of player: ");  // Gets the player's name.
+
+var index = 0;
+var stages = [intro, rules, game, playAgain];
+
+while (index != -1){  // Goes throughout the stages index according to what is called.
+  stages[index]();
+}
+
+function intro(){ 
+  welcome(username);
+}
+
+function game(){
+  play(username);
+}
+
+
+// The first index and intro to the game.
+function welcome(username){  
+  console.clear();
+  console.log ("Welcome " + username + " to a game of blackjack!");
+  
+  var rulesAndBasis = prompt ("Would you like to read the rules and basis of the game? (Yes/No) ");
+
+  if (rulesAndBasis === "Yes"){
+    index=1;  // Directs the player to the rules, index 1.
+  } else 
+  if (rulesAndBasis === "No"){
+    index=2;  // Directs the player to the game, index 2.
+  }
+}
+
+// Runs the list of rules of the game.
+function rules(){
+  console.clear();
+  console.log("In this game, both dealer and user will draw two cards. Only one of the dealer's cards would be shown." + " \n");
+  console.log("So rules: ");
+
+  console.log("1. Do not exceed 21, otherwise player will be busted (player lost)");
+  console.log ("2. If player is dealt with an Ace and a face card, the player automatically wins.");
+  console.log("3. Ace and face cards holds the value of 11 otherwise.");
+  console.log("4. If player holds greater sum value of cards, without exceeding 21, than the dealer, player wins.");
+  console.log("5. If player exceeds 21 by drawing more cards, and when dealer reveals their cards and it is a bust, dealer wins.");
+  console.log("6. If dealer busts and player doesn't, player wins.");
+  console.log("7. If both dealer and player receive a blackjack or any other hands with the same sum called a 'push', no one wins.");
+  console.log("8. In this game, there is only Hit and Stand. Hit where player takes another card from dealer and Stand where player takes no more cards.")
+
+  console.log ("\n");
+
+  var done = prompt("Good with the rules? (Yes)");
+  if (done == "Yes"){
+    index=2;  // Redirects the player to the game board.
+  }
+}
+
+
+// Plays the game.
+function play(username){
+  console.clear();  // clears the screen
+  
+  var dealerValue = 0;  // the dealer's card's value
+  var playerValue = 0;  // the player's card's value
+
+  var dealerCards = [];  // the dealer's cards
+  var playerCards = [];  // the player's cards
+
+  for (var i=0; i<2; i++){  // loops two times to get two cards
+    var pickedCardsForDealer = cards();
+    dealerCards.push (pickedCardsForDealer);  // adds the obtained card into the dealerCards array
+    dealerValue = valueOfCards(dealerCards);  // calculates the value of the card, adding it to the total dealer's card's value
+  }
+
+  console.log("Dealer picked two cards. One of them being a " + dealerCards[1] + "." + "\n");
+
+  for (var j=0; j<2; j++){  // loops two times to get two cards
+    var pickedCardsForPlayer = cards();
+    playerCards.push (pickedCardsForPlayer);  // adds the obtained card into the playerCards array
+    playerValue = valueOfCards(playerCards);  // calculates the value of the card, adding it to the total player's card's value
+  }
+
+  console.log (username + "'s cards: " + playerCards);  // displays the player's cards
+  
+  if (playerValue<= 21){  // if the value of the player's cards are less than 21
+    var hit = prompt("Would you like to Hit? (Yes/No) ");  // the player is allowed to Hit
+    
+    while (hit === "Yes"){  // loops until hit does not equal "Yes"
+      
+      pickAgain = cards();
+      playerCards.push (pickAgain);
+      playerValue = valueOfCards(playerCards);
+  
+      console.log (username + "'s cards: " + playerCards);
+
+      hit = prompt ("Would you like to Hit again? (Yes/No) ");
+    }
+  }
+
+  won(dealerValue, playerValue, username);  // figures out who won
+
+  console.log ("Dealer's cards: " + dealerCards);  // prints out the dealer's cards 
+  console.log ("Card value: " + dealerValue + "\n");  // and their card value in total
+
+  console.log (username + "'s cards: " + playerCards);  // prints out the player's cards 
+  console.log ("Card value: " + playerValue + "\n");  // and their card value in total
+
+  var continueGame = prompt ("Play again? (Yes/No)");  // asks player if they want to play again
+  if (continueGame === "Yes"){
+    index=3;
+  }
+  if (continueGame === "No"){
+    console.log("Game over.");
+    index = -1;  // ends the game/loop
+  }
+}
+
+
+// The last index of the stages, asks the player if they would like to continue playing.
+function playAgain(){
+  index = 2;  // brings player back to the playing board
+}
+
+
+// Picks the cards that the player and dealer receives.
+function cards(){
+  var cardSelection = ["Club 1", "Club 2", "Club 3", "Club 4", "Club 5", "Club 6", "Club 7", "Club 8", "Club 9", "Club 10", "Club Jack", "Club Queen", "Club King", "Club Ace", "Heart 1", "Heart 2", "Heart 3", "Heart 4", "Heart 5", "Heart 6", "Heart 7", "Heart 8", "Heart 9", "Heart 10", "Heart Jack", "Heart Queen", "Heart King", "Heart Ace", "Spades 1", "Spades 2", "Spades 3", "Spades 4", "Spades 5", "Spades 6", "Spades 7", "Spades 8", "Spades 9", "Spades 10", "Spades Jack", "Spades Queen", "Spades King", "Spades Ace", "Diamond 1","Diamond 2", "Diamond 3", "Diamond 4", "Diamond 5", "Diamond 6", "Diamond 7", "Diamond 8", "Diamond 9", "Diamond 10", "Diamond Jack", "Diamond Queen", "Diamond King", "Diamond Ace"];
+
+  var length = cardSelection.length;
+  var pickedCard = cardSelection[Math.floor(Math.random()* length)];
+
+  var index = cardSelection.indexOf(pickedCard);
+  return (pickedCard);
+  cardsToPick.splice (pickedCard, 1);
+}
+
+
+// Calculates the values of the cards gathered
+function valueOfCards(cards){
+  var value = 0;
+  for (var i=0; i<cards.length; i++){
+    if (cards[i] == "Club 1" || cards[i] == "Heart 1" || cards[i] == "Spades 1" || cards[i] == "Diamond 1"){
+      value += 1;
+    }
+    if (cards[i] == "Club 2" || cards[i] == "Heart 2" || cards[i] == "Spades 2" || cards[i] == "Diamond 2"){
+      value += 2;
+    }
+    if (cards[i] == "Club 3" || cards[i] == "Heart 3" || cards[i] == "Spades 3" || cards[i] == "Diamond 3"){
+      value += 3;
+    }
+    if (cards[i] == "Club 4" || cards[i] == "Heart 4" || cards[i] == "Spades 4" || cards[i] == "Diamond 4"){
+      value += 4;
+    }
+    if (cards[i] == "Club 5" || cards[i] == "Heart 5" || cards[i] == "Spades 5" || cards[i] == "Diamond 5"){
+      value += 5;
+    }
+    if (cards[i] == "Club 6" || cards[i] == "Heart 6" || cards[i] == "Spades 6" || cards[i] == "Diamond 6"){
+      value += 6;
+    }
+    if (cards[i] == "Club 7" || cards[i] == "Heart 7" || cards[i] == "Spades 7" || cards[i] == "Diamond 7"){
+      value += 7;
+    }
+    if (cards[i] == "Club 8" || cards[i] == "Heart 8" || cards[i] == "Spades 8" || cards[i] == "Diamond 8"){
+      value += 8;
+    }
+    if (cards[i] == "Club 9" || cards[i] == "Heart 9" || cards[i] == "Spades 9" || cards[i] == "Diamond 9"){
+      value += 9;
+    }
+    if (cards[i] == "Club 10" || cards[i] == "Heart 10" || cards[i] == "Spades 10" || cards[i] == "Diamond 10"){
+      value += 10;
+    }
+    if (cards[i] == "Club Jack" || cards[i] == "Club Queen" || cards[i] == "Club King" || cards[i] == "Club Ace"){
+      value += 11;
+    }
+    if (cards[i] == "Spades Jack" || cards[i] == "Spades Queen" || cards[i] == "Spades King" || cards[i] == "Spades Ace"){
+      value += 11;
+    }
+    if (cards[i] == "Diamond Jack" || cards[i] == "Diamond Queen" || cards[i] == "Diamond King" || cards[i] == "Diamond Ace"){
+      value += 11;
+    }
+    if (cards[i] == "Heart Jack" || cards[i] == "Heart Queen" || cards[i] == "Heart King" || cards[i] == "Heart Ace"){
+      value += 11;
+    }
+  }
+  return value;
+}
+
+
+// Compares and finds out who won
+function won(dealerValue, playerValue, username){
+  if (playerValue>21 && dealerValue<=21){
+    console.log(username + " lost.");
+  }
+  if (playerValue<=21 && playerValue>dealerValue){
+    console.log (username + " won." + "\n");
+  }
+  if (playerValue<=21 && dealerValue>playerValue && dealerValue<=21){
+    console.log (username + " lost." + "\n");
+  }
+  if (dealerValue===playerValue || (dealerValue>21 && playerValue>21)){
+    console.log ("Tie." + "\n");
+  }
+  if (dealerValue>21 && playerValue<=21){
+    console.log (username + " won." + "\n");
+  }
+}
