@@ -1,0 +1,84 @@
+// mad libs peoject
+console.log ("mad libs");
+ 
+// list of inputs
+var nationality = [];  // one
+var adjective = [];  // four
+var name = [];  // one
+var noun = [];  // three
+var number = [];  // two
+var food = [];  // two
+var shape = [];  // one
+var pluralNoun = [];  // one
+ 
+// makes the word list
+var inputAdjective = prompt("Enter 4 different adjectives seperated by a comma and a space");
+var inputNationality = prompt("Enter a nationality");
+var inputName = prompt("Enter a name");
+var inputNoun = prompt("Enter 3 different nouns seperated by a comma and a space");
+var inputNumber = prompt("Enter 2 different numbers seperated by a comma and a space");
+var inputFood = prompt("Enter 2 different foods seperated by a comma and a space");
+var inputShape = prompt("Enter a shape");
+var inputPluralNoun = prompt("Enter a plural noun");
+ 
+nationality = inputNationality.split(", ");
+adjective = inputAdjective.split(", ");
+name = inputName.split(", ");
+noun = inputNoun.split(", ");
+number = inputNumber.split(", ");
+food = inputFood.split(", ");
+shape = inputShape.split(", ");
+pluralNoun = inputPluralNoun.split(", ");
+ 
+// picked inputs
+var adjOne = randomItem(adjective);
+adjective = rid(adjective, adjOne);
+var adjTwo = randomItem(adjective);
+adjective = rid(adjective, adjTwo);
+var adjThree = randomItem(adjective);
+adjective = rid(adjective, adjThree);
+var adjFour = randomItem(adjective);
+ 
+var nounOne = randomItem(noun);
+noun = rid(noun, nounOne);
+var nounTwo = randomItem(noun);
+noun = rid(noun, nounTwo);
+var nounThree = randomItem(noun);
+ 
+var numOne = randomItem(number);
+number = rid(number, numOne);
+var numTwo = randomItem(number);
+ 
+var foodOne = randomItem(food);
+food = rid(food, foodOne);
+var foodTwo = randomItem(food);
+ 
+// mad libs story
+console.log ("Pizza Pizza");
+console.log ("Pizza was invented by a " + adjOne + " " + nationality + " chef named " + name + ". To make a pizza, you need to take a lump of " + nounOne + ", and make a thin, round " + adjTwo + " " + nounTwo + ". Then you cover it with " + adjThree + " sauce, " + adjFour + " cheese, and fresh chopped " + pluralNoun + ". Next you have to bake it in a very hot " + nounThree + ". When it is done, cut it into " + numOne + " " + shape + ". Some kids like " + foodOne + " pizza the best, but my favorite is the " + foodTwo + " pizza. If I could, I would eat pizza " + numTwo + " times a day!");
+ 
+// makes sure the input is not repeated in the mad libs
+/*function randomItem(list){
+ var listLength = list.length ;
+ var item = list[Math.floor(Math.random()*list.Length)];
+ list.pop(item);
+ return item;
+ }
+ 
+*/
+// this doesn't seem to take out already used input
+function randomItem (list){
+ var item = list[Math.floor(Math.random()*list.length)];
+ var index = list.indexOf(item);
+ return (item);
+}
+ 
+function rid(list, item){
+ for (var i=0; i<list.length; i++){
+   if (list[i] === item){
+     list.splice(i, 1);
+     i--;
+   }
+ }
+ return list;
+}
