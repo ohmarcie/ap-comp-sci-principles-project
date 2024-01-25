@@ -1,0 +1,32 @@
+console.log ("Hello! Welcome to Litte");
+
+console.log();
+
+// to organize different levels of functions to run
+var index = 0;
+var menus = [start, icecream, burger, ];
+
+while (index != -1){
+  menus[index];
+}
+
+var iceCream (){
+  var base = prompt ("Would you like: 1. waffle bowl, 2. waffle cone, or 3. bun? ");
+
+  var numberOfScoops = prompt ("Would you like one or two scoops? ");
+
+  if (numberOfScoops === one){
+    var scoop = prompt ("What flavor of ice cream would you like? ");
+  } else 
+  if (numberOfScoops === two){
+    var scoopOne = prompt ("What flavor do you want your first scoop to be? ");
+
+    var scoopTwo = prompt ("And for your second scoop ?");
+  }
+
+  var toppings = prompt ("Would you like any toppings? (up to three) ");
+
+  if (toppings === one){
+    var 
+  }
+}
